@@ -1,30 +1,199 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>GameNite Controlpad</title>
+    <title>RecBox Control Pad</title>
     <style>
-      html,
       body {
-          touch-action: none;
-          overflow: hidden;
-          width: 100vw;
-          height: 100vh;
-          margin: 0;
-          padding: 0;
-          touch-action: none;
-      }
-      canvas {
-          display: block
+	  margin: 0;
       }
     </style>
   </head>
   <body>
-    <canvas></canvas>
-    <!-- <script type="module" src="app.js"></script> -->
-    <!-- <script mimetype="application/js" type="module" src="init.js"></script> -->
-    <script type="module" src="./index.js"></script>
-    <!-- <script type="module" src="init.js"></script> -->
-  </body>
+    <div id="d1">
+      <canvas id="thecanvas"</canvas> 
+    </div>
+<script>
+  // style="touch-action: none;"></canvas>  
+  var div1 = document.getElementById('d1');
+  const canvas = document.getElementById('thecanvas');
+  const ctx = canvas.getContext('2d');
+  const url_arg_str = window.location.search;
+  const url_params = new URLSearchParams(url_arg_str);
+  const subid = url_params.get('subid');
+  const box_ip = window.location.href.split('/')[2].split(':')[0];
+  console.log(subid);
+
+  // don't expand all the way if the webpage is a weird shape
+  if (innerWidth > innerHeight*3) {
+      canvas.width = innerHeight*3;
+  } else {
+      canvas.width = innerWidth;
+  }
+  if (innerHeight > innerWidth*2/3) {
+      canvas.height = innerWidth*2/3;
+  } else {
+      canvas.height = innerHeight;
+  }
+
+  console.log(canvas);
+
+
+  // canvas shrinkage because mobile browser autoscaling
+  div1.style.position = "absolute";
+  div1.style.left = canvas.width/10 + "px";
+  div1.style.top = canvas.height/10 + "px";
+  canvas.width *= 4/5;
+  canvas.height *= 4/5;
+
+  // define the controller
+  const w = canvas.width;
+  const aw = w*.45;
+  const bw = w - aw;
+  const h = canvas.height;
+  // dpad
+  const thic1 = h*.125;
+  const thic2 = h*.15;
+  const dpad_x = aw/2;
+  const dpad_y = h/2;
+  const up_x = dpad_x-thic1/2;
+  const up_y = dpad_y-thic1*.8-thic2;
+  const down_x = dpad_x-thic1/2;
+  const down_y = dpad_y+thic1*.8;
+  const left_x = dpad_x-thic1*.8-thic2;
+  const left_y = dpad_y-thic1/2;
+  const right_x = dpad_x+thic1*.8;
+  const right_y = dpad_y-thic1/2;
+  // select and back
+  const sq1 = bw*.45;
+  const sq2 = bw/4;
+  const select_x = w-sq1-bw/12;
+  const select_y = (h-sq1)/2;
+  const back_x = select_x-sq2-bw/12;
+  const back_y = h/2 + h/12;
+  // colors
+  const yellow = 'rgba(220, 200, 70, .9)';
+  const faded_yellow = 'rgba(220, 200, 70, .2)';
+  const red = 'rgba(230, 120, 70, 1)';
+  const green = 'rgba(120, 220, 100, 1)';
+  
+  var global_spec = {
+      'buttons': [
+          {'x':up_x,    'y':up_y,   'w':thic1, 'h':thic2, 'id':'up'},
+          {'x':down_x,  'y':down_y, 'w':thic1, 'h':thic2, 'id':'down'},
+          {'x':left_x,  'y':left_y, 'w':thic2, 'h':thic1, 'id':'left'},
+          {'x':right_x, 'y':right_y,'w':thic2, 'h':thic1, 'id':'right'},
+          {'x':select_x, 'y':select_y,'w':sq1, 'h':sq1,   'id':'select'},
+          {'x':back_x,  'y':back_y, 'w':sq2,   'h':sq2,   'id':'back'},
+      ],
+      'panels': [
+          {'x': dpad_x-thic1/2, 'y':dpad_y-thic1/2, 'w':thic1, 'h':thic1, 'color':faded_yellow},
+          {'x': up_x-10, 'y':up_y-10, 'w':thic1+20, 'h':thic2+10, 'color':yellow},
+          {'x': down_x-10, 'y':down_y, 'w':thic1+20, 'h':thic2+10, 'color':yellow},
+          {'x': left_x-10, 'y':left_y-10, 'w':thic2+10, 'h':thic1+20, 'color':yellow},
+          {'x': right_x, 'y':right_y-10, 'w':thic2+10, 'h':thic1+20, 'color':yellow},
+          {'x':select_x-10, 'y':select_y-10,'w':sq1+20, 'h':sq1+20,   'color':green},
+          {'x':back_x-10,  'y':back_y-10, 'w':sq2+20,   'h':sq2+20,   'color':red},
+          
+      ]
+  }
+  
+  // draw the controller //
+  //
+  // clear canvas graphics
+  ctx.beginPath();
+  ctx.fillStyle = 'rgb(250,250,255)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  ws = new WebSocket("ws://" + box_ip + ":50079");
+
+  ws.onclose = (event) => {
+      console.log("closing");
+  }
+
+  // wait for websocket to connect
+  ws.onopen = (event) => {
+
+      console.log("openned websocket")
+
+      // clear canvas
+      ctx.beginPath();
+      ctx.fillStyle = 'rgb(245,245,245)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Draw panels
+      global_spec.panels.forEach(function (p, i) {
+          ctx.beginPath();
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.w, p.h);
+      });
+      // Draw buttons
+      global_spec.buttons.forEach(function (b, i) {
+          ctx.beginPath();
+          if (b.depressed) {
+	      ctx.fillStyle = 'rgb(190,190,190)';
+          } else {
+	      ctx.fillStyle = 'rgb(230,230,230)';
+          }
+          ctx.rect(b.x, b.y, b.w, b.h, 10);
+          ctx.stroke();
+          ctx.fill();
+      });
+
+      
+
+      byte_array = new Uint8Array(1);
+      byte_array[0] = subid;
+      ws.send(byte_array.buffer);
+      //socket.emit('msg', JSON.stringify({Dimensions: [canvas.width, canvas.height]}));
+      
+
+      function send_datum(msg) {
+	  console.log('sending ' + msg);
+	  ws.send(msg);
+      }
+
+
+      function clear_html_elements() {
+	  var children = document.body.children;
+	  for (var i=0; i < children.length; i++) {
+	      var child = children[i];
+	      if (child.tagName == 'BUTTON') {
+		  document.body.removeChild(child);
+		  i--;
+	      }
+	  }
+      }
+      
+      function getTouchPosition(canvas, event) {
+	  const rect = canvas.getBoundingClientRect();
+	  const x = event.clientX - rect.left;
+	  const y = event.clientY - rect.top;
+	  return {x, y};
+      }
+
+
+      function touched(e) {
+	  // account for touches in buttons
+	  let pos = getTouchPosition(canvas, e);
+	  global_spec.buttons.forEach(function (b, i) {
+	      if (pos.x >= b.x && pos.x <= b.x + b.w &&
+		  pos.y >= b.y && pos.y <= b.y + b.h)
+	      {
+		  b.depressed = true;
+		  send_datum(b.id);
+	      }
+	  });
+      }
+      
+      canvas.addEventListener('mousedown', function (e) {
+	  touched(e);
+      });
+
+      ws.addEventListener('message', (event) => {
+	  msg = event.data;
+	  console.log('<' + msg + '>');
+	  console.log('^^ WASNT EXPECTING TO RECV ANY MSGS ^^');
+      });
+  }
+  </script>
+</body>
 </html>

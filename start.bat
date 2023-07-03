@@ -18,4 +18,4 @@ REM Run my_server.exe
 start "" "controlpad_server.exe"
 
 REM Run Node.js server
-node "web_server.js"
+node "controlpad_web_server.js"
