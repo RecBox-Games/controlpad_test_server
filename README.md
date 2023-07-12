@@ -1,6 +1,5 @@
 # controlpad_test_server
 
-- only supports Windows for now
 
 ## setup
 - install node if you don't have it already
