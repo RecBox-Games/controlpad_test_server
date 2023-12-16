@@ -1,0 +1,19 @@
+#FCTLine {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    font-size: 32px;
+    font-family: Arial;
+}
+
+#waitingLine {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 90%;
+    text-align: center;
+    transform: translate(-50%, 0%);
+    font-size: 26px;
+    font-family: Arial;
+}

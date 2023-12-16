@@ -1,0 +1,28 @@
+#nameBox{
+    display: none;
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    width: 35%;
+    height: 9%;
+    transform: translate(-50%, 0%);
+    z-index: 10;
+    background: #dddddd;
+    border: 3px solid #111111;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#nameLine {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 90%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-family: Arial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

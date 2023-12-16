@@ -1,0 +1,45 @@
+#joinLine {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: flex;
+    transform: translate(-50%, 0%);
+    font-size: 25px;
+    font-family: Arial;
+    whitespace: no-wrap;
+    overflow: hidden;
+    text-overflow: ellipses;
+}
+
+
+input#joinInput {
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    width: 80%;
+    background: #fafaff;
+    border: 2px solid #111111;
+    border-radius: 4px; 
+    font-size: 24px;
+}
+
+button#submitJoinButton {
+    top: 70%;
+    left: 30%;
+    height: 20%;
+    width: 40%;
+}
+
+
+button#yesJoinButton {
+    top: 60%;
+    left: 15%;
+    height: 20%;
+    width: 30%;
+}
+button#noJoinButton {
+    top: 60%;
+    left: 55%;
+    height: 20%;
+    width: 30%;
+}
