@@ -1,80 +1,106 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="styles/name.css">
-    <link rel="stylesheet" href="styles/wait.css">
-    <link rel="stylesheet" href="styles/join.css">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" /> 
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <title>GameNite Controlpad</title>
-    <link rel="stylesheet" type="text/css" href="portrait.css">
-    <link rel="stylesheet" type="text/css" href="landscape.css">
+    <link rel="stylesheet" type="text/css" href="styles/portrait.css">
+    <link rel="stylesheet" type="text/css" href="styles/landscape.css">
 
     <style>
+      :root {
+          touch-action: pan-x pan-y;
+          height: 100% 
+      }
       html {
+          height: 100%;
+          overflow: hidden;
           background-color: #607060
       }
+      button {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+      }      
     </style>
+    <script type="module" src="app.js"></script>
   </head>
   <body>
     <!-- d pad inputs -->
     <div id="dpad-container-portrait">
       <div class="dpad-row back-row">
-        <button class="back-button"> <img src="resources/exit.png" alt="Back"> </button>
-        <button class="quit-button"> <img src="resources/quit.png" alt="Quit"> </button>
+        <button id="back-button" data-message="back"> <img src="resources/exit.png" alt="Back"> </button>
+        <button id="menu-button" data-message="menu"> <img src="resources/menu.png" alt="Menu"> </button>
       </div>
       <div class="dpad-row up-row">
-        <button class="arrow-button"> <img src="resources/up.png" alt="Up"> </button>
+        <button class="arrow-button" data-message="up"> <img src="resources/up.png" alt="Up"> </button>
       </div>
       <div class="dpad-row middle-row">
-        <button class="arrow-button"> <img src="resources/left.png" alt="Left"> </button>
-        <button class="enter-button"> <img src="resources/enter.png" alt="Select"> </button>
-        <button class="arrow-button"> <img src="resources/right.png" alt="Right"> </button>
+        <button class="arrow-button" data-message="left"> <img src="resources/left.png" alt="Left"> </button>
+        <button id="enter-button" data-message="enter"> <img src="resources/enter.png" alt="Select"> </button>
+        <button class="arrow-button" data-message="right"> <img src="resources/right.png" alt="Right"> </button>
       </div>
       <div class="dpad-row down-row">
-        <button class="arrow-button"> <img src="resources/down.png" alt="Down"> </button>
+        <button class="arrow-button" data-message="down"> <img src="resources/down.png" alt="Down"> </button>
       </div>
-      <div class="input-row"> <input class="input" type="text"> </div>
-      <div class="send-button"> <img src="resources/send.png"> </img></div>
+      <div id="input-row">
+        <div id="input-button"> <input id="input-text-portrait" type="text"> </div>
+        <div>
+          <button id="send-button">
+            <img src="resources/send.png"> </img>
+          </button>
+        </div>
+      </div>
+      <div id="popup">
+        <button id="quit-button" data-message="quit"> <img src="resources/quit.png" alt="Menu"> </button>
+        <button id="close-button" data-message="close"> <img src="resources/x.png" alt="Close"> </button>
+      </div>
     </div>
     <!----------------------------------------------LANDSCAPE----------------------------------------->
     <div id="dpad-container-landscape">
-  <!-- Flex container for arrows and button rows -->
-  <div class="controls-landscape">
-    <!-- Container for arrow buttons -->
-    <div class="arrow-buttons-landscape">
-      <div class="dpad-row-landscape up-row-landscape">
-        <button class="arrow-button-landscape"> <img src="resources/up.png" alt="Up"> </button>
+      <!-- Flex container for arrows and button rows -->
+      <div id="controls-landscape">
+        <!-- Container for arrow buttons -->
+        <div class="arrow-buttons-landscape">
+          <div class="dpad-row-landscape up-row-landscape">
+            <button class="arrow-button-landscape" data-message="up"> <img src="resources/up.png" alt="Up"> </button>
+          </div>
+          <div class="dpad-row-landscape middle-row-landscape">
+            <button class="arrow-button-landscape" data-message="left"> <img src="resources/left.png" alt="Left"> </button>
+            <button class="arrow-button-landscape" data-message="right"> <img src="resources/right.png" alt="Right"> </button>
+          </div>
+          <div class="dpad-row-landscape down-row-landscape">
+            <button class="arrow-button-landscape" data-message="down"> <img src="resources/down.png" alt="Down"> </button>
+          </div>
+        </div>
+        <div id="popup-landscape">
+          <button id="quit-button-landscape" data-message="quit"> <img src="resources/quit.png" alt="Menu"> </button>
+          <button id="close-button-landscape" data-message="close"> <img src="resources/x.png" alt="Close"> </button>
+        </div>
+        <!-- Container for Enter, Back, and Quit buttons -->
+        <div class="button-row-landscape">
+          <div id="enter-row-landscape">
+            <button id="enter-button-landscape" data-message="enter"> <img src="resources/enter.png" alt="Enter"> </button>
+          </div>
+          <div class="back-row-landscape">
+            <button id="back-button-landscape" data-message="back"> <img src="resources/exit.png" alt="Back"> </button>
+          </div>
+          <div id="quit-row-landscape">
+            <button id="menu-button-landscape" data-message="menu"> <img src="resources/menu.png" alt="Quit"> </button>
+          </div>          
+        </div>
       </div>
-      <div class="dpad-row-landscape middle-row-landscape">
-        <button class="arrow-button-landscape"> <img src="resources/left.png" alt="Left"> </button>
-        <button class="arrow-button-landscape"> <img src="resources/right.png" alt="Right"> </button>
-      </div>
-      <div class="dpad-row-landscape down-row-landscape">
-        <button class="arrow-button-landscape"> <img src="resources/down.png" alt="Down"> </button>
-      </div>
-    </div>
 
-    <!-- Container for Enter, Back, and Quit buttons -->
-    <div class="button-row-landscape">
-      <div class="enter-row-landscape">
-        <button class="enter-button-landscape"> <img src="resources/enter.png" alt="Enter"> </button>
+      <!-- Rest of the landscape layout -->
+      <div id="input-row-landscape">
+        <div id="input-button-landscape">
+          <input id="input-text-landscape" type="text">
+        </div>
+        <button id="send-button-landscape"> <img src="resources/send.png" alt="Send"> </button>
       </div>
-      <div class="back-row-landscape">
-        <button class="back-button-landscape"> <img src="resources/exit.png" alt="Back"> </button>
-      </div>
-      <div class="quit-row-landscape">
-        <button class="quit-button-landscape"> <img src="resources/quit.png" alt="Quit"> </button>
-      </div>
-    </div>
-  </div>
 
-  <!-- Rest of the landscape layout -->
-  <div class="input-row-landscape"> <input type="text"> </div>
-  <div class="send-button-landscape"> <img src="resources/send.png" alt="Send"> </div>
-</div>
     <!-- maybe maybe maybe start game button -->
-    <script type="module" src="app.js"></script>
+
   </body>
 </html>

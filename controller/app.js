@@ -1,142 +1,98 @@
-import { sendControlpadMessage } from "./controlpad.js"
-import { hideJoinBox, showJoinBox } from "./join.js"
-import { hideWaitBox } from "./wait.js"
-
-
 var newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
-if (newOrientation == "landscape") document.getElementById("dpad-container-portrait").style.display = "none";
-else document.getElementById("dpad-container-landscape").style.display = "none"
+if (newOrientation === "landscape") {
+    document.getElementById("dpad-container-portrait").style.display = "none";
+    document.getElementById("dpad-container-landscape").style.display = "flex";
+} else {
+    document.getElementById("dpad-container-portrait").style.display = "flex";
+    document.getElementById("dpad-container-landscape").style.display = "none";
+}
 
-                          
-// receive messages
-document.addEventListener("controlpad-message", (event) => {
-    var msg = event.detail;
-    console.log("recv: " + msg);
-    var parts = msg.split(":");
-    // TODO: should check that parts[0] is 'state'
-    var state = parts[1];
-    var arg1 = parts[2];
-    var arg2 = parts[3];
-    var arg3 = parts[4];
-    if (state == "joining") {
-        showJoinBox();
-    } else if (state == "playing") {
-        updatePlayingState(arg1, arg2, arg3);
-        hideWaitBox();
-        hideJoinBox();
-    }
+document.addEventListener('DOMContentLoaded', (e) => {
 });
 
+window.addEventListener('resize', function() {
+    window.location.reload();
+});
 
-// must implement this function (called by controlpads.js)
-export function controlpadStart() {
-    // start by getting our current state since it's very possible we're
-    // reconnecting and not just connecting for the first time
-    sendControlpadMessage("state-request");
-    showPlayingState();
+// style="touch-action: none;"></canvas>  
+const url_arg_str = window.location.search;
+const url_params = new URLSearchParams(url_arg_str);
+const subid = url_params.get('subid');
+const box_ip = window.location.href.split('/')[2].split(':')[0];
+console.log(subid);
+const ws = new WebSocket("ws://" + box_ip + ":50079");
+
+ws.onclose = () => {
+    console.log("closing");
 }
 
-// must implement this function (called by controlpads.js)
-// called 30 times per second
-export function controlpadUpdate() {
-    
-}
+// wait for websocket to connect
+ws.onopen = () => {    
+    console.log("opened websocket");
+    setupButtonListeners();
+    let byte_array = new Uint8Array(1);
+    byte_array[0] = subid;
+    ws.send(byte_array.buffer);
+    ws.addEventListener('message', (e) => {
+        let message = e.data;
+        console.log(message);
+        // Implement this function to handle the message
+        // the controller receives from the game
+        handleMessage(message);
+    })
+};
 
-var PLAYER_NAME = "";
-var LEFT_CARD_STR = "";
-var RIGHT_CARD_STR = "";
-
-function updatePlayingState(name, left_card_str, right_card_str) {
-    PLAYER_NAME = name;
-    LEFT_CARD_STR = left_card_str;
-    RIGHT_CARD_STR = right_card_str;
-    showPlayingState();
-}
-
-function showPlayingState() {
-    // name
-    showName(PLAYER_NAME);
-    // use a div to contain the cards
-    let card_div = document.getElementById("cardDiv");
-    // remove previous elements from that div
-    while (card_div.firstChild) {
-        card_div.removeChild(card_div.firstChild);
+function openMenu() {
+    console.log(newOrientation);
+    if(newOrientation === "portrait") {
+        document.getElementById("popup").style.display = "flex";
     }
-    // size the card div
-    let vw = window.innerWidth;
-    let vh = window.innerHeight;
-    let constraint = vw < vh ? "vw" : "vh"; // account for portrait vs landscape
-    card_div.style.width = "100" + constraint;
-    card_div.style.height = "58" + constraint;
-    // left card
-    var card_img_left = createCardElement("L", LEFT_CARD_STR);
-    card_img_left.style.left = "0%";
-    card_div.appendChild(card_img_left);
-    // right card
-    var card_img_right = createCardElement("R", RIGHT_CARD_STR);
-    card_img_right.style.right = "0%";
-    card_div.appendChild(card_img_right);
-    // deal button
-    var deal_button = createDealButton();
-    card_div.appendChild(deal_button);
+    else {
+        document.getElementById("popup-landscape").style.display = "flex";
+    }
 }
 
+function closeMenu() {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("popup-landscape").style.display = "none";
+}
 
-function createDealButton() {
-    var img = document.createElement("img");
-    // load image
-    img.src = "./resources/deal.png";
-    // todo other things below
-    img.addEventListener("click", function() {
-        sendControlpadMessage("deal");
+function send_datum(msg) {
+    console.log('sending ' + msg);
+    ws.send(msg);
+}
+
+// Function to add event listeners to buttons
+function setupButtonListeners() {
+    // Select all buttons you want to send messages
+    const buttons = document.querySelectorAll('button');    
+    document.getElementById('send-button').addEventListener('click', function() {
+        var inputText = document.getElementById('input-text-portrait').value;
+        send_datum(inputText);
     });
-    // position the card
-    img.style.position = "absolute";
-    img.style.width ="40%";
-    img.style.height = "35%";
-    img.style.top = "105%";
-    img.style.left = "50%";
-    img.style.transform = "translate(-50%, 0%)";
-    return img;
-}
 
-function createCardElement(side, card_str) {
-    var img = document.createElement("img");
-    //
-    // parse card spec and set click(tap) callback
-    if (card_str == "") {
-        img.src = "./resources/card_none.png";
-    } else {
-        var parts = card_str.split(",");
-        var suit = parts[0];
-        var rank = parts[1];
-        img.src = "./resources/card_fronts/card_" + suit + "_" + rank + ".png";
-        // send card:* message on press
-        let isLeft = side == "L";
-        img.addEventListener("click", () => {
-            sendControlpadMessage("card:" + side + "," + suit + "," + rank);
-            if (isLeft) {
-                LEFT_CARD_STR = "";
-            } else {
-                RIGHT_CARD_STR = "";
-            };
-            showPlayingState();
+    document.getElementById('send-button-landscape').addEventListener('click', function() {
+        var inputText = document.getElementById('input-text-landscape').value;
+        send_datum(inputText);
+    });
+    
+    buttons.forEach(button => {
+        // Add click event listener to each button
+        button.addEventListener('click', function() {
+            // Determine what message to send based on the button's id or other attributes
+            const message = this.getAttribute('data-message');
+            if (message != null) send_datum(message); // Send the message through the WebSocket
         });
-
-    }
-    //
-    // position the card
-    img.style.position = "absolute";
-    img.style.width ="53%";
-    img.style.height = "100%";
-    img.style.top = "50%";
-    img.style.transform = "translate(0%, -50%)";
-    return img;
+    });    
+    document.getElementById('menu-button').addEventListener('click', openMenu);
+    document.getElementById('menu-button-landscape').addEventListener('click', openMenu);
+    document.getElementById('close-button').addEventListener('click', closeMenu);
+    document.getElementById('close-button-landscape').addEventListener('click', closeMenu);    
 }
 
-function showName(name) {
-    let name_box = document.getElementById("nameBox");
-    let name_line = document.getElementById("nameLine");
-    name_line.textContent = name;
-    name_box.style.display = "block";
-}
+ws.addEventListener('message', (event) => {
+    msg = event.data;
+    console.log('<' + msg + '>');
+    console.log('^^ WASNT EXPECTING TO RECV ANY MSGS ^^');
+});
+
