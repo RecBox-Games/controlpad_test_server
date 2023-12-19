@@ -7,6 +7,14 @@ if (newOrientation === "landscape") {
     document.getElementById("dpad-container-landscape").style.display = "none";
 }
 
+document.getElementById("input-text-portrait").addEventListener('blur', () => {
+    window.scrollTo(0, 0);
+});
+
+document.getElementById("input-text-landscape").addEventListener("blur", () => {
+    window.scrollTo(0,0);
+});
+
 document.addEventListener('DOMContentLoaded', (e) => {
 });
 
@@ -27,19 +35,30 @@ ws.onclose = () => {
 }
 
 // wait for websocket to connect
-ws.onopen = () => {    
+ws.onopen = (_event) => {
     console.log("opened websocket");
-    setupButtonListeners();
     let byte_array = new Uint8Array(1);
     byte_array[0] = subid;
-    ws.send(byte_array.buffer);
-    ws.addEventListener('message', (e) => {
-        let message = e.data;
-        console.log(message);
-        // Implement this function to handle the message
-        // the controller receives from the game
-        handleMessage(message);
-    })
+    ws.send(byte_array);
+    setupButtonListeners();
+    ws.onmessage = async (event) => {
+        if (event.data instanceof Blob) {
+            const blobData = new Uint8Array(await event.data.arrayBuffer()); // Read the Blob as a Uint8Array
+            // Check the first byte to trigger a reload if it's equal to 0x01
+            if (blobData.length > 0 && blobData[0] === 0x01) {
+                console.log("Hold your hats! It's reload time!");
+                location.reload();
+            }
+            else {
+                // Handle other binary data
+                console.log("Received binary data:", blobData);
+                // Handle it according to your use case.
+            }
+        }
+        else {
+            wsMessage = event.data;
+        }
+    };
 };
 
 function openMenu() {
