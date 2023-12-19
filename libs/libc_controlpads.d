@@ -1,0 +1,1 @@
+/home/requin/domestic/GameNite/c_controlpads/target/debug/libc_controlpads.a: /home/requin/domestic/GameNite/ControlpadServer/src/ipc.rs /home/requin/domestic/GameNite/ControlpadServer/src/lib.rs /home/requin/domestic/GameNite/ControlpadServer/src/systemlock.rs /home/requin/domestic/GameNite/c_controlpads/src/lib.rs
