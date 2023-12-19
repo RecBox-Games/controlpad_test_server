@@ -1,0 +1,101 @@
+#dpad-container-portrait {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; /* This will space out the main container's children */
+    height: 100vh;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+#back-button, #menu-button {
+    position: absolute;
+    top: 5%; /* Position at 5% from the top of the viewport */
+}
+
+#back-button {
+    left: 5%; /* Position at 5% from the left of the viewport */
+}
+
+#menu-button {
+    right: 5%; /* Position at 5% from the right of the viewport */
+}
+
+.dpad-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adjust the gap between arrow buttons */
+}
+
+/* Align the 'Enter' button and arrow buttons in the middle */
+.middle-row, .up-row, .down-row {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+/* Adjust the position of the arrow buttons to bring them closer to the 'Back' and 'Menu' */
+.up-row {
+    position: absolute;
+    top: 20%; /* Move the up arrow closer to the top */
+    width: 100%;
+}
+
+.down-row {
+    position: absolute;
+    top: 40%; /* Move the down arrow closer to the 'Enter' button */
+    width: 100%;
+}
+
+.middle-row {
+    position: absolute;
+    top: 30%; /* Position the middle row for optimal spacing */
+    width: 100%;
+}
+
+#input-row {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically (if there is height available) */
+    position: absolute;
+    top: 55%; /* Position from the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%; /* Adjust width as needed */
+    max-width: 300px; /* Set a max-width if necessary */
+}
+
+#input-text-portrait {
+    width: 100%; /* Ensure the input takes full width of the container */
+    margin-bottom: 10px; /* Adjust spacing between input and button */
+}
+
+#send-button {
+    width: fit-content; /* Make the button only as wide as its content */
+    /* Add any additional styles for the send button here */
+}
+
+
+/* Additional global styles and resets (if needed) */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Popup - initially hidden */
+#popup {
+    display: none; /* Hidden until Menu is clicked */
+    position: absolute;
+    flex-direction: column;
+    align-items: center; /* Align children */
+    justify-content: center; /* Center children */
+    width: 80%; /* Adjust width as needed */
+    height: auto; /* Adjust height as needed */
+    top: 15%; /* Position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #997950; 
+}

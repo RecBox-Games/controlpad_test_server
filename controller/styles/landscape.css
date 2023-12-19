@@ -1,0 +1,86 @@
+/* Landscape styles */
+#dpad-container-landscape {
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    width: 100%; 
+}
+
+#controls-landscape {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; 
+}
+
+.arrow-buttons-landscape {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    margin-top: 30px;
+}
+
+.button-row-landscape {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15vh;
+    margin-right: 15vw;
+}
+
+.middle-row-landscape .arrow-button-landscape {
+    margin: 0 25px;
+}
+
+
+#input-row-landscape {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This will center the input and button horizontally */
+    position: absolute;
+    bottom: 5%; /* Adjust as needed for position from the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%; /* Set this to the desired width of the input box and button */
+}
+
+#input-button-landscape {
+    width: 100%; /* The input button container takes the full width of #input-row-landscape */
+    box-sizing: border-box; /* Includes padding and border in the element's total width */
+    margin-bottom: 10px; /* Space between the input and the send button */
+}
+
+#input-text-landscape {
+    width: 100%; /* The input takes the full width of its container */
+}
+
+#send-button-landscape {
+    width: 100%; /* The send button matches the width of the input box */
+    box-sizing: border-box; /* Includes padding and border in the button's total width */
+}
+
+/* The button does not need specific alignment as it will inherit from its parent flex container */
+
+#popup-landscape {
+    width: 15vw;
+    height: 15vh;
+    background-color: #997950;
+    display: none; /* Enable flexbox for centering content inside the popup */
+    justify-content: center; /* Center children horizontally inside the popup */
+    align-items: center; /* Center children vertically inside the popup */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+#quit-button-landscape {
+    position: absolute;
+    left: 50%;
+    top: 75%;
+    transform: translate(-50%, -50%);
+}
+
+#close-button-landscape {
+    position: absolute;
+    left: 95%;
+    top: 10%;
+    transform: translate(-50%, -50%);
+}
