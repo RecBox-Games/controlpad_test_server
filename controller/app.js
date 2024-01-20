@@ -24,21 +24,6 @@ window.addEventListener('resize', function() {
     window.location.reload();
 });
 
-function openMenu() {
-    console.log(newOrientation);
-    if(newOrientation === "portrait") {
-        document.getElementById("popup").style.display = "flex";
-    }
-    else {
-        document.getElementById("popup-landscape").style.display = "flex";
-    }
-}
-
-function closeMenu() {
-    document.getElementById("popup").style.display = "none";
-    document.getElementById("popup-landscape").style.display = "none";
-}
-
 
 // Function to add event listeners to buttons
 export function setupButtonListeners() {
@@ -62,8 +47,4 @@ export function setupButtonListeners() {
             if (message != null) send_datum(message); // Send the message through the WebSocket
         });
     });    
-    document.getElementById('menu-button').addEventListener('click', openMenu);
-    document.getElementById('menu-button-landscape').addEventListener('click', openMenu);
-    document.getElementById('close-button').addEventListener('click', closeMenu);
-    document.getElementById('close-button-landscape').addEventListener('click', closeMenu);    
 }
