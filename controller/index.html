@@ -24,14 +24,14 @@
           cursor: pointer;
       }      
     </style>
+    <script type="module" src="required.js"></script>    
     <script type="module" src="app.js"></script>
   </head>
   <body>
     <!-- d pad inputs -->
     <div id="dpad-container-portrait">
-      <div class="dpad-row back-row">
+      <div class="dpad-row" id="back-row">
         <button id="back-button" data-message="back"> <img src="resources/exit.png" alt="Back"> </button>
-        <button id="menu-button" data-message="menu"> <img src="resources/menu.png" alt="Menu"> </button>
       </div>
       <div class="dpad-row up-row">
         <button class="arrow-button" data-message="up"> <img src="resources/up.png" alt="Up"> </button>
@@ -52,10 +52,6 @@
           </button>
         </div>
       </div>
-      <div id="popup">
-        <button id="quit-button" data-message="quit"> <img src="resources/quit.png" alt="Menu"> </button>
-        <button id="close-button" data-message="close"> <img src="resources/x.png" alt="Close"> </button>
-      </div>
     </div>
     <!----------------------------------------------LANDSCAPE----------------------------------------->
     <div id="dpad-container-landscape">
@@ -74,21 +70,14 @@
             <button class="arrow-button-landscape" data-message="down"> <img src="resources/down.png" alt="Down"> </button>
           </div>
         </div>
-        <div id="popup-landscape">
-          <button id="quit-button-landscape" data-message="quit"> <img src="resources/quit.png" alt="Menu"> </button>
-          <button id="close-button-landscape" data-message="close"> <img src="resources/x.png" alt="Close"> </button>
-        </div>
         <!-- Container for Enter, Back, and Quit buttons -->
         <div class="button-row-landscape">
           <div id="enter-row-landscape">
             <button id="enter-button-landscape" data-message="enter"> <img src="resources/enter.png" alt="Enter"> </button>
           </div>
-          <div class="back-row-landscape">
+          <div id="back-row-landscape">
             <button id="back-button-landscape" data-message="back"> <img src="resources/exit.png" alt="Back"> </button>
           </div>
-          <div id="quit-row-landscape">
-            <button id="menu-button-landscape" data-message="menu"> <img src="resources/menu.png" alt="Quit"> </button>
-          </div>          
         </div>
       </div>
 
