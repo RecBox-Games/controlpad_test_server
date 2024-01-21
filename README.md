@@ -8,6 +8,8 @@
 
 ## warning
 - this server is experimental and likely buggy
-- report bugs here: https://discord.gg/JN6NrUcBhr and we'll fix it quickly*
+- report bugs here: https://discord.gg/JN6NrUcBhr and we'll fix it quickly
 
-\* we'll *try* to fix it quickly
+
+## TODO
+- include instructions on how to edit the controller and create a new controller from scratch including what minimal requirements the game developer needs to follow
