@@ -1,10 +1,15 @@
+// Update the paths to your image files
+const menuButtonImagePath = 'resources/menu.png'
+const quitButtonImagePath = 'resources/quit.png'
+const closePopupButtonImagePath = 'resources/x.png';
+
 function createMenuButton() {
     const menuButton = document.createElement('button');
     menuButton.id = 'universal-menu-button';
     menuButton.setAttribute('data-message', 'menu');
 
     const img = document.createElement('img');
-    img.src = 'resources/menu.png'; // Update this path as needed
+    img.src = menuButtonImagePath;
     img.alt = 'Menu';
     menuButton.appendChild(img);
 
@@ -14,8 +19,6 @@ function createMenuButton() {
     menuButton.style.zIndex = '1002';
     menuButton.style.backgroundColor = 'transparent';
     menuButton.style.border = 'none';
-
-
     menuButton.addEventListener('click', togglePopup);
 
     return menuButton;
@@ -32,7 +35,6 @@ function createOverlay() {
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
     overlay.style.zIndex = '1000';
     overlay.style.display = 'none';
-
     return overlay;
 }
 
@@ -59,7 +61,7 @@ function createPopup() {
     quitButton.style.backgroundColor = 'transparent';
     quitButton.setAttribute('data-message', 'quit');
     const quitImg = document.createElement('img');
-    quitImg.src = 'resources/quit.png'; // Update this path as needed
+    quitImg.src = quitButtonImagePath; 
     quitImg.alt = 'Quit';
     quitButton.appendChild(quitImg);
     popup.appendChild(quitButton);
@@ -71,7 +73,7 @@ function createPopup() {
     closeButton.style.border='none';
     closeButton.style.backgroundColor = 'transparent';
     const closeImg = document.createElement('img');
-    closeImg.src = 'resources/x.png'; // Update this path as needed
+    closeImg.src = closePopupButtonImagePath; // Update this path as needed
     closeImg.alt = 'Close';
     closeButton.appendChild(closeImg);
     closeButton.style.position = 'absolute';
@@ -79,7 +81,6 @@ function createPopup() {
     closeButton.style.right = '5px';
     closeButton.addEventListener('click', togglePopup);
     popup.appendChild(closeButton);
-
     return popup;
 }
 

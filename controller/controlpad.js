@@ -1,6 +1,3 @@
-import { setupButtonListeners } from "./app.js";
-
-// style="touch-action: none;"></canvas>  
 const url_arg_str = window.location.search;
 const url_params = new URLSearchParams(url_arg_str);
 const subid = url_params.get('subid');
@@ -15,10 +12,10 @@ ws.onclose = () => {
 // wait for websocket to connect
 ws.onopen = (_event) => {
     console.log("opened websocket");
+    setupButtonListeners();
     let byte_array = new Uint8Array(1);
     byte_array[0] = subid;
     ws.send(byte_array);
-    setupButtonListeners();
     ws.onmessage = async (event) => {
         if (event.data instanceof Blob) {
             const blobData = new Uint8Array(await event.data.arrayBuffer()); // Read the Blob as a Uint8Array
@@ -47,3 +44,17 @@ export function send_datum(msg) {
     console.log('sending ' + msg);
     ws.send(msg);
 }
+
+function setupButtonListeners() {
+    // Select all buttons you want to send messages
+    const buttons = document.querySelectorAll('button');        
+    buttons.forEach(button => {
+        // Add click event listener to each button
+        button.addEventListener('click', function() {
+            // Determine what message to send based on the button's id or other attributes
+            const message = this.getAttribute('data-message');
+            if (message != null) send_datum(message); // Send the message through the WebSocket
+        });
+    });    
+}
+
