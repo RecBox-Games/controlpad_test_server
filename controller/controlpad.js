@@ -34,16 +34,13 @@ ws.onopen = (_event) => {
             }
         }
         else {
-            wsMessage = event.data;
+            let msg = event.data;
+            console.log("received message" + '<' + msg + '>');
+            console.log('^^ WASNT EXPECTING TO RECV ANY MSGS ^^');
+
         }
     };
 };
-
-ws.addEventListener('message', (event) => {
-    msg = event.data;
-    console.log('<' + msg + '>');
-    console.log('^^ WASNT EXPECTING TO RECV ANY MSGS ^^');
-});
 
 
 export function send_datum(msg) {

@@ -12,6 +12,9 @@ function createMenuButton() {
     menuButton.style.top = '10px';
     menuButton.style.left = '10px';
     menuButton.style.zIndex = '1002';
+    menuButton.style.backgroundColor = 'transparent';
+    menuButton.style.border = 'none';
+
 
     menuButton.addEventListener('click', togglePopup);
 
@@ -52,6 +55,8 @@ function createPopup() {
     // Quit Button
     const quitButton = document.createElement('button');
     quitButton.id = 'quit-button';
+    quitButton.style.border='none';
+    quitButton.style.backgroundColor = 'transparent';
     quitButton.setAttribute('data-message', 'quit');
     const quitImg = document.createElement('img');
     quitImg.src = 'resources/quit.png'; // Update this path as needed
@@ -63,6 +68,8 @@ function createPopup() {
     const closeButton = document.createElement('button');
     closeButton.id = 'close-button';
     closeButton.setAttribute('data-message', 'close');
+    closeButton.style.border='none';
+    closeButton.style.backgroundColor = 'transparent';
     const closeImg = document.createElement('img');
     closeImg.src = 'resources/x.png'; // Update this path as needed
     closeImg.alt = 'Close';
