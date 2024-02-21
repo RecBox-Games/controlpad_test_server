@@ -1,13 +1,5 @@
-import { send_datum } from "./controlpad.js";
+import { send_controlpad_message } from "./controlpad.js";
 
-var newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
-if (newOrientation === "landscape") {
-    document.getElementById("dpad-container-portrait").style.display = "none";
-    document.getElementById("dpad-container-landscape").style.display = "flex";
-} else {
-    document.getElementById("dpad-container-portrait").style.display = "flex";
-    document.getElementById("dpad-container-landscape").style.display = "none";
-}
 
 document.getElementById("input-text-portrait").addEventListener('blur', () => {
     window.scrollTo(0, 0);
@@ -17,19 +9,26 @@ document.getElementById("input-text-landscape").addEventListener("blur", () => {
     window.scrollTo(0,0);
 });
 
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function() {   
     window.location.reload();
 });
 
 
-export function setupInputListeners() {
+
+// If you're not using any text inputs you can remove the below function
+function setupInputListeners() {
     document.getElementById('send-button').addEventListener('click', function() {
         var inputText = document.getElementById('input-text-portrait').value;
-        send_datum(inputText);
+        send_controlpad_message(inputText);
     });
 
     document.getElementById('send-button-landscape').addEventListener('click', function() {
         var inputText = document.getElementById('input-text-landscape').value;
-        send_datum(inputText);
+        send_controlpad_message(inputText);
     });    
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupInputListeners(); // can remove this line if not using any text inputs
+});
+

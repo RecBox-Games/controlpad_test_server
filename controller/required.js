@@ -7,6 +7,7 @@ function createMenuButton() {
     const menuButton = document.createElement('button');
     menuButton.id = 'universal-menu-button';
     menuButton.setAttribute('data-message', 'menu');
+    menuButton.addEventListener('click', togglePopup); // Listener attached here
 
     const img = document.createElement('img');
     img.src = menuButtonImagePath;
@@ -57,6 +58,7 @@ function createPopup() {
     // Quit Button
     const quitButton = document.createElement('button');
     quitButton.id = 'quit-button';
+    quitButton.addEventListener('click', togglePopup); // Listener attached here
     quitButton.style.border='none';
     quitButton.style.backgroundColor = 'transparent';
     quitButton.setAttribute('data-message', 'quit');
@@ -69,6 +71,7 @@ function createPopup() {
     // Close Button
     const closeButton = document.createElement('button');
     closeButton.id = 'close-button';
+    closeButton.addEventListener('click', togglePopup); // Listener attached here
     closeButton.setAttribute('data-message', 'close');
     closeButton.style.border='none';
     closeButton.style.backgroundColor = 'transparent';
@@ -92,12 +95,45 @@ function togglePopup() {
     overlay.style.display = isHidden ? 'block' : 'none';
 }
 
+// ------------------------- Orientation Check ----------------------------------
+
+var windowWidth = 0;
+var windowHeight = 0;
+
+
+function dimsCheck() {
+    if (windowWidth != window.innerWidth || windowHeight != window.innerHeight)
+        layoutElements();
+}
+
+function layoutElements() {
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+    var isPortrait = windowHeight > windowWidth;
+    handleOrientation(isPortrait);
+}
+
+function handleOrientation(isPortrait) {
+    if(isPortrait) {
+        document.getElementById("dpad-container-portrait").style.display = "flex";
+        document.getElementById("dpad-container-landscape").style.display = "none";        
+    }
+    else
+    {
+        document.getElementById("dpad-container-portrait").style.display = "none";
+        document.getElementById("dpad-container-landscape").style.display = "flex";
+    }
+}
+
+
+// -----------------------------------------------------------
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     const bodyElement = document.body;
     const menuButton = createMenuButton();
     const overlay = createOverlay();
     const popup = createPopup();
+    setInterval(dimsCheck, 100);
 
     bodyElement.appendChild(menuButton);
     bodyElement.appendChild(overlay);
