@@ -1,3 +1,4 @@
+import { send_controlpad_message } from './controlpad.js';
 // Update the paths to your image files
 const menuButtonImagePath = 'resources/menu.png'
 const quitButtonImagePath = 'resources/quit.png'
@@ -58,7 +59,7 @@ function createPopup() {
     // Quit Button
     const quitButton = document.createElement('button');
     quitButton.id = 'quit-button';
-    quitButton.addEventListener('click', togglePopup); // Listener attached here
+    quitButton.addEventListener('click', handleQuit); // Listener attached here
     quitButton.style.border='none';
     quitButton.style.backgroundColor = 'transparent';
     quitButton.setAttribute('data-message', 'quit');
@@ -93,6 +94,10 @@ function togglePopup() {
     const isHidden = popup.style.display === 'none';
     popup.style.display = isHidden ? 'block' : 'none';
     overlay.style.display = isHidden ? 'block' : 'none';
+}
+
+function handleQuit() {
+    send_controlpad_message('quit');
 }
 
 // ------------------------- Orientation Check ----------------------------------
