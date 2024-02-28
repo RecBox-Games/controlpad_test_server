@@ -13,8 +13,6 @@ window.addEventListener('resize', function() {
     window.location.reload();
 });
 
-
-
 // If you're not using any text inputs you can remove the below function
 function setupInputListeners() {
     document.getElementById('send-button').addEventListener('click', function() {

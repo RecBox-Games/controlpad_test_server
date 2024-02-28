@@ -43,5 +43,3 @@ export function send_controlpad_message(msg) {
     console.log('sending ' + msg);
     ws.send(msg);
 }
-
-

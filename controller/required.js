@@ -1,3 +1,5 @@
+import { send_controlpad_message } from './controlpad.js';
+
 // Update the paths to your image files
 const menuButtonImagePath = 'resources/menu.png'
 const quitButtonImagePath = 'resources/quit.png'
@@ -58,7 +60,7 @@ function createPopup() {
     // Quit Button
     const quitButton = document.createElement('button');
     quitButton.id = 'quit-button';
-    quitButton.addEventListener('click', togglePopup); // Listener attached here
+    quitButton.addEventListener('click', quitGame); // Listener attached here
     quitButton.style.border='none';
     quitButton.style.backgroundColor = 'transparent';
     quitButton.setAttribute('data-message', 'quit');
@@ -93,6 +95,68 @@ function togglePopup() {
     const isHidden = popup.style.display === 'none';
     popup.style.display = isHidden ? 'block' : 'none';
     overlay.style.display = isHidden ? 'block' : 'none';
+}
+
+function quitGame() {
+    createPasswordInput();
+//    checkPassword();
+//    closePasswordInput();
+}
+
+
+function createPasswordInput() {
+    console.log("clicked");
+    // function should be called when quit button is clicked
+    // after the password is entered, the user should click the exit button again to exit the game
+    // create a password prompt
+    const passwordPrompt = document.createElement('div');
+    // give it an id
+    passwordPrompt.id = 'password-prompt';
+    passwordPrompt.style.position = 'fixed';
+    passwordPrompt.style.width = '75%';
+    passwordPrompt.style.height = '40%';
+    passwordPrompt.style.backgroundColor = 'blue';   
+    passwordPrompt.style.top = '80%';
+    passwordPrompt.style.left = '50%';
+    passwordPrompt.style.transform = 'translate(-50%, -50%)';
+    // add the input inside the contain
+    const input = document.createElement('input');
+    input.type = 'password';
+    input.style.position = 'absolute';
+    input.style.top = '50%';
+    input.style.left = '50%';
+    input.style.transform = 'translate(-50%, -50%)';
+    passwordPrompt.appendChild(input);
+    document.getElementById('universal-popup').appendChild(passwordPrompt);
+
+    // check if exit button is clicked while password prompt is open
+}
+
+function checkPassword() {
+    const exitButton = document.getElementById('quit-button');
+    const input = document.getElementById('password-input');
+    exitButton.addEventListener('click', function() {
+        // check if the password is correct
+        if (input.value === 'demopassword') {
+            // pass quit message to the game
+            send_controlpad_message('kill');
+            console.log(input.value);
+            input.value = '';
+            passwordPrompt.style.display = 'none';
+            // close the menu
+            // remove the prompt
+            togglePopup();
+        }
+    });
+    closePasswordInput();
+}
+
+
+// close the passwordInput
+function closePasswordInput() {
+    // hide the password prompt    
+    const passwordPrompt = document.getElementById('password-prompt');
+    passwordPrompt.style.display = 'none';
 }
 
 // ------------------------- Orientation Check ----------------------------------
