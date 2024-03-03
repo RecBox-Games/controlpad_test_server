@@ -30,10 +30,11 @@ ws.onopen = (_event) => {
             }
         }
         else {
-            let msg = event.data;
-            console.log("received message" + '<' + msg + '>');
-            console.log('^^ WASNT EXPECTING TO RECV ANY MSGS ^^');
 
+            var controlpad_msg_event = new CustomEvent("controlpad-message", {
+                detail: event.data,
+            });
+            document.dispatchEvent(controlpad_msg_event);
         }
     };
 };
@@ -43,5 +44,3 @@ export function send_controlpad_message(msg) {
     console.log('sending ' + msg);
     ws.send(msg);
 }
-
-
