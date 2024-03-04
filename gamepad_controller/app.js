@@ -1,4 +1,4 @@
-import { send_datum } from "./controlpad.js";
+import { send_controlpad_message } from "./controlpad.js";
 
 
 document.addEventListener("controlpad-message", (event) => {
@@ -79,14 +79,14 @@ touchPad.addEventListener('touchend', function(e) {
     isTouchActive = false;
     JOY_BASE_IMG.style.display = "none";
     JOY_STICK_IMG.style.display = "none";
-    send_datum("stick:0,0");
+    send_controlpad_message("stick:0,0");
 }, false);
 
 touchPad.addEventListener('touchcancel', function(e) {
     isTouchActive = false;
     JOY_BASE_IMG.style.display = "none";
     JOY_STICK_IMG.style.display = "none";
-    send_datum("stick:0,0");
+    send_controlpad_message("stick:0,0");
 }, false);
 
 
@@ -132,7 +132,7 @@ var throttledDragEvent = throttle(function(e) {
         const moveX = Math.round((stickPosition.x - touchStart.x)*255/MAX_STICK_DIST);
         const moveY = Math.round((stickPosition.y - touchStart.y)*255/MAX_STICK_DIST);
         let datum = "stick:" + String(moveX) + "," + String(moveY);
-        send_datum(datum);
+        send_controlpad_message(datum);
         //console.log(datum);
     }
 }, 33); // Throttle to 30 times per second (33.33 milliseconds)
@@ -355,15 +355,15 @@ function newButton(x, y, width, height, name) {
     //
     btn.ontouchstart = () => {
         btn_img.src = pressed_name;
-        send_datum("pressed:"+name);
+        send_controlpad_message("pressed:"+name);
     };
     btn.ontouchend = () => {
         btn_img.src = released_name;
-        send_datum("released:"+name);
+        send_controlpad_message("released:"+name);
     };
     btn.ontouchcancel = () => {
         btn_img.src = released_name;
-        send_datum("released:"+name);
+        send_controlpad_message("released:"+name);
     };
     //var btns_img = document.createElement('img');
     return btn;
