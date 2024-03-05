@@ -145,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const popup = createPopup();
     bodyElement.appendChild(menuButton);
     bodyElement.appendChild(overlay);
-    bodyElement.appendChild(popup);
     //
     dispatchViewportEvent();
     setInterval(dimsCheck, 100);
