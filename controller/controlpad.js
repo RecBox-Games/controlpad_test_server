@@ -20,6 +20,7 @@ ws.onopen = (_event) => {
     let byte_array = new Uint8Array(1);
     byte_array[0] = subid;
     ws.send(byte_array);
+    ws.send("state-request");
     ws.onmessage = async (event) => {
         if (event.data instanceof Blob) {
             const blobData = new Uint8Array(await event.data.arrayBuffer()); // Read the Blob as a Uint8Array
