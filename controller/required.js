@@ -250,7 +250,7 @@ function showPlayerMenuButton() {
     showPlayerMenuButton.style.right = '4%';
 
     if (!isPortrait) {
-	showPlayerMenuButton.style.height = '6vh';	
+	showPlayerMenuButton.style.height = '7vh';
     }
     else {
 	popup.style.height = '30%';
