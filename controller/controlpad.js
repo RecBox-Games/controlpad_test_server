@@ -5,25 +5,51 @@
 
 const url_arg_str = window.location.search;
 const url_params = new URLSearchParams(url_arg_str);
-const subid = url_params.get('subid');
-const box_ip = window.location.href.split('/')[2].split(':')[0];
-console.log(subid);
-const ws = new WebSocket("ws://" + box_ip + ":50079");
 
-ws.onclose = () => {
-    console.log("closing");
-}
+// WebSocket class to handle communication with the controlpad server
+class GameWebSocket {
+    /**
+     * Create a new WebSocket object
+     * @param {string} ip - The IP address of the controlpad server
+     * @param {number} subid - The subid of the controlpad server
+     * @param {number} port - The port number of the controlpad server
+     */    
+    constructor(port = 50079) {
+        this.ip = window.location.href.split('/')[2].split(':')[0];
+        this.subid = url_params.get('subid');
+        this.port = port;
+        this.socket = null;
+        this.initializeWebSocket();
+    }
 
-// wait for websocket to connect
-ws.onopen = (_event) => {
-    console.log("opened websocket");
-    let byte_array = new Uint8Array(1);
-    byte_array[0] = subid;
-    ws.send(byte_array);
-    ws.send("state-request");
-    ws.onmessage = async (event) => {
+    // initializes the WebSocket connection and binds the event handlers
+    initializeWebSocket() {
+        this.socket = new WebSocket("ws://" + this.ip + ":" + this.port);
+        this.socket.onopen = this.onopen.bind(this);
+        this.socket.onclose = this.onclose.bind(this);
+        this.socket.onerror = this.onerror.bind(this);
+        this.socket.onmessage = this.onmessage.bind(this);
+    }
+
+    // event handler for the WebSocket onopen event   
+    onopen = async (_event) => {
+        console.log("opened websocket on " + this.ip + ":" + this.port);
+        this.socket.send("state-request");
+        const byte_array = new Uint8Array(1);
+        byte_array[0] = this.subid;
+        this.socket.send(byte_array);        
+    }
+
+    // event handler for the WebSocket onclose event
+    onclose = () => {
+        console.log("closing websocket on " + this.ip + ":" + this.port);
+    }
+
+    // event handler for the Websocket onmessage event
+    onmessage = async (event) => {
         if (event.data instanceof Blob) {
-            const blobData = new Uint8Array(await event.data.arrayBuffer()); // Read the Blob as a Uint8Array
+            // Read the Blob as a Uint8Array
+            const blobData = new Uint8Array(await event.data.arrayBuffer()); 
             // Check the first byte to trigger a reload if it's equal to 0x01
             if (blobData.length > 0 && blobData[0] === 0x01) {
                 console.log("Hold your hats! It's reload time!");
@@ -36,17 +62,23 @@ ws.onopen = (_event) => {
             }
         }
         else {
-
             var controlpad_msg_event = new CustomEvent("controlpad-message", {
                 detail: event.data,
             });
             document.dispatchEvent(controlpad_msg_event);
         }
-    };
-};
+    }
 
+    // event handler for the WebSocket onerror event
+    onerror = (error) => {
+        console.log("WebSocket error:", error, " on " + this.ip + ":" + this.port);
+    }
+}
+
+// Create a new WebSocket object
+const socket = new GameWebSocket();
 
 export function send_controlpad_message(msg) {
     console.log('sending ' + msg);
-    ws.send(msg);
+    socket.send(msg);
 }
