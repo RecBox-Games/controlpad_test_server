@@ -31,13 +31,19 @@ class GameWebSocket {
         this.socket.onmessage = this.onmessage.bind(this);
     }
 
+    // send initial message to the controlpad server after the WebSocket connection is opened
+    // Method to send initial messages once the WebSocket connection is ready
+    sendInitialMessages() {
+        const byte_array = new Uint8Array(1);
+        byte_array[0] = this.subid;
+        this.socket.send(byte_array);
+        this.socket.send("state-request");
+    }
+    
     // event handler for the WebSocket onopen event   
     onopen = async (_event) => {
         console.log("opened websocket on " + this.ip + ":" + this.port);
-        this.socket.send("state-request");
-        const byte_array = new Uint8Array(1);
-        byte_array[0] = this.subid;
-        this.socket.send(byte_array);        
+        this.sendInitialMessages();
     }
 
     // event handler for the WebSocket onclose event
@@ -47,6 +53,7 @@ class GameWebSocket {
 
     // event handler for the Websocket onmessage event
     onmessage = async (event) => {
+        console.log("Received message:", event.data);
         if (event.data instanceof Blob) {
             // Read the Blob as a Uint8Array
             const blobData = new Uint8Array(await event.data.arrayBuffer()); 
@@ -76,9 +83,9 @@ class GameWebSocket {
 }
 
 // Create a new WebSocket object
-const socket = new GameWebSocket();
+const ws = new GameWebSocket();
 
 export function send_controlpad_message(msg) {
     console.log('sending ' + msg);
-    socket.send(msg);
+    ws.socket.send(msg);
 }
