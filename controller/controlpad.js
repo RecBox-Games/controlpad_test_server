@@ -10,8 +10,8 @@ const url_params = new URLSearchParams(url_arg_str);
 class GameWebSocket {
     /**
      * Create a new WebSocket object
-     * @param {string} ip - The IP address of the controlpad server
-     * @param {number} subid - The subid of the controlpad server
+     * @param {string} ip - The IP address of the console
+     * @param {number} subid - The subid of the phone client
      * @param {number} port - The port number of the controlpad server
      */    
     constructor(port = 50079) {
