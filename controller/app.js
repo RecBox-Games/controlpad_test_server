@@ -40,6 +40,17 @@ document.getElementById("input-text-landscape").addEventListener("blur", () => {
     window.scrollTo(0,0);
 });
 
+// EXAMPLE BUTTON LISTENER START
+
+document.getElementById("enter-button").addEventListener("click", () => {
+    send_controlpad_message("hello");
+});
+
+document.getElementById("enter-button-landscape").addEventListener("click", () => {
+    send_controlpad_message("hello");
+});
+
+// END EXAMPLE BUTTON LISTENER
 
 // Add listeners for the text input fields to send messages to the game
 // If you're not using any text inputs you can remove the below function
