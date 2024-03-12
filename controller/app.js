@@ -1,4 +1,6 @@
-import { send_controlpad_message } from "./controlpad.js";
+import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
+
+//////////////////////// HANDLE MESSAGES FROM GAME /////////////////////////////
 
 //////////////////////////////// Layout Elements ///////////////////////////////
 
