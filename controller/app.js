@@ -1,4 +1,17 @@
-import { send_controlpad_message } from "./controlpad.js";
+import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
+
+
+// DEBUG is a global variable that can be used to enable or disable console messages
+export const DEBUG = false;
+
+document.addEventListener(CONTROLPAD_MESSAGE, (event) => {
+    if(event.detail === "goodbye") {
+        console.log("Goodbye");
+        send_controlpad_message("cya");
+    }
+});
+
+
 
 //////////////////////////////// Layout Elements ///////////////////////////////
 
@@ -27,6 +40,18 @@ function layoutElements(isPortrait, viewWidth, viewHeight) {
     }
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////// EXAMPLE BUTTON LISTENER START //////////////////////////
+
+document.getElementById("enter-button").addEventListener("click", () => {
+    send_controlpad_message("hello");
+});
+
+document.getElementById("enter-button-landscape").addEventListener("click", () => {
+    send_controlpad_message("hello");
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 
