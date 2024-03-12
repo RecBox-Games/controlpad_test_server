@@ -1,4 +1,4 @@
-import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
+import { send_controlpad_message } from "./controlpad.js";
 
 
 // set to true to enable logs from controlpad.js
