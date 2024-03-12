@@ -1,16 +1,9 @@
 import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
 
 
-// DEBUG is a global variable that can be used to enable or disable console messages
+// set to true to enable logs from controlpad.js
+// make sure to set to false before submitting your code
 export const DEBUG = false;
-
-document.addEventListener(CONTROLPAD_MESSAGE, (event) => {
-    if(event.detail === "goodbye") {
-        console.log("Goodbye");
-        send_controlpad_message("cya");
-    }
-});
-
 
 
 //////////////////////////////// Layout Elements ///////////////////////////////
@@ -42,19 +35,6 @@ function layoutElements(isPortrait, viewWidth, viewHeight) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////// EXAMPLE BUTTON LISTENER START //////////////////////////
-
-document.getElementById("enter-button").addEventListener("click", () => {
-    send_controlpad_message("hello");
-});
-
-document.getElementById("enter-button-landscape").addEventListener("click", () => {
-    send_controlpad_message("hello");
-});
-
-////////////////////////////////////////////////////////////////////////////////
-
 
 // prevent usage of input box from causing elements to scroll out of view (this
 // is a default behavior we are essentially overriding)
