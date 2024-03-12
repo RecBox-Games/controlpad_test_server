@@ -1,6 +1,11 @@
-import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
+import { send_controlpad_message } from "./controlpad.js";
 
 //////////////////////// HANDLE MESSAGES FROM GAME /////////////////////////////
+
+// TODO: handle messages from the game here
+
+
+///////////////////////////////////////////////////////////////////////////////
 
 
 // set to true to enable logs from controlpad.js
