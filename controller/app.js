@@ -52,7 +52,6 @@ document.getElementById("enter-button-landscape").addEventListener("click", () =
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// END EXAMPLE BUTTON LISTENER
 
 // Add listeners for the text input fields to send messages to the game
 // If you're not using any text inputs you can remove the below function
