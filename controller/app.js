@@ -1,5 +1,11 @@
 import { send_controlpad_message } from "./controlpad.js";
 
+
+// set to true to enable logs from controlpad.js
+// make sure to set to false before submitting your code
+export const DEBUG = false;
+
+
 //////////////////////////////// Layout Elements ///////////////////////////////
 
 document.addEventListener("viewport-change", (event) => {
@@ -29,7 +35,6 @@ function layoutElements(isPortrait, viewWidth, viewHeight) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
 
 // prevent usage of input box from causing elements to scroll out of view (this
 // is a default behavior we are essentially overriding)
