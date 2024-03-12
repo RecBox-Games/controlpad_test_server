@@ -40,7 +40,7 @@ document.getElementById("input-text-landscape").addEventListener("blur", () => {
     window.scrollTo(0,0);
 });
 
-// EXAMPLE BUTTON LISTENER START
+/////////////////////////// EXAMPLE BUTTON LISTENER /////////////////////////////
 
 document.getElementById("enter-button").addEventListener("click", () => {
     send_controlpad_message("hello");
@@ -49,6 +49,8 @@ document.getElementById("enter-button").addEventListener("click", () => {
 document.getElementById("enter-button-landscape").addEventListener("click", () => {
     send_controlpad_message("hello");
 });
+
+////////////////////////////////////////////////////////////////////////////////
 
 // END EXAMPLE BUTTON LISTENER
 
