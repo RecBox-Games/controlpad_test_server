@@ -1,5 +1,12 @@
 import { send_controlpad_message } from "./controlpad.js";
 
+//////////////////////// HANDLE MESSAGES FROM GAME /////////////////////////////
+
+// TODO: handle messages from the game here
+
+
+///////////////////////////////////////////////////////////////////////////////
+
 
 // set to true to enable logs from controlpad.js
 // make sure to set to false before submitting your code
@@ -44,6 +51,18 @@ document.getElementById("input-text-portrait").addEventListener('blur', () => {
 document.getElementById("input-text-landscape").addEventListener("blur", () => {
     window.scrollTo(0,0);
 });
+
+/////////////////////////// EXAMPLE BUTTON LISTENER /////////////////////////////
+
+document.getElementById("enter-button").addEventListener("click", () => {
+    send_controlpad_message("hello");
+});
+
+document.getElementById("enter-button-landscape").addEventListener("click", () => {
+    send_controlpad_message("hello");
+});
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 // Add listeners for the text input fields to send messages to the game
