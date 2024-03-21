@@ -10,9 +10,9 @@ const menuButtonImagePath = 'resources/menu.png';
 
 // ---------------------- helpers ----------------------------------
 
-function isAdmin() {
+/*function isAdmin() {
     return localStorage.getItem('isAdmin') === 'true';
-}
+}*/
 
 // ------------------------------ Menu Elements -------------------------
 
@@ -153,21 +153,15 @@ function showMainMenu() {
 	closeButton.style.height = '5vh';
 	inviteButton.style.height = '5vh';
     }
-
-
-
-    if (isAdmin()) {
-        showQuitButton();
-        showPlayerMenuButton();
-    }
-    else showAdminButton();
+    showQuitButton();
+//        showPlayerMenuButton();
     
     //
     popup.appendChild(closeButton);
     popup.appendChild(inviteButton);
 }
 
-function showAdminButton() {
+/*function showAdminButton() {
     const popup = document.getElementById('universal-popup');
 
     const adminButton = document.createElement('button');
@@ -197,7 +191,7 @@ function showAdminButton() {
 
    
     popup.appendChild(adminButton);
-}
+}*/
 
 function showQuitButton() {
     const popup = document.getElementById('universal-popup');   
@@ -231,7 +225,7 @@ function showQuitButton() {
 
 }
 
-function showPlayerMenuButton() {
+/*function showPlayerMenuButton() {
     const popup = document.getElementById('universal-popup');
 
     const showPlayerMenuButton = document.createElement('button');
@@ -260,11 +254,11 @@ function showPlayerMenuButton() {
 
 
     popup.appendChild(showPlayerMenuButton);
-}
+}*/
 
 // ---------------------- Password Prompt ----------------------------------
 
-function showPasswordPrompt() {
+/*function showPasswordPrompt() {
     const popup = document.getElementById('universal-popup');
     popup.innerHTML = ''; 
     popup.style.width = '50%';
@@ -298,19 +292,21 @@ function checkPassword() {
     } else {
         console.log("Incorrect password");
     }
-}
+}*/
 
 // ------------------------- Handle Admin Menu ------------------------------
 
-function switchToPlayerControls() {
+/*function switchToPlayerControls() {
     localStorage.setItem('isAdmin', 'false');
     send_controlpad_message("state-request");
     togglePopup();
 }
 
-function switchToAdminMenu() {
+
+  function switchToAdminMenu() {
     localStorage.setItem('isAdmin', 'true');
-}
+  }
+*/
 
 function confirmQuitGame() {
     const popup = document.getElementById('universal-popup');
@@ -487,10 +483,12 @@ document.addEventListener('DOMContentLoaded', () => {
     //
     bodyElement.appendChild(overlay);
     bodyElement.appendChild(menuButton);
-    createPopup(); // Initialize the popup structure    
-    if (isAdmin()) {
-        showQuitButton();
-        showPlayerMenuButton();
-    } else showAdminButton();
+    createPopup(); // Initialize the popup structure
+    //    if (isAdmin()) {
+    showQuitButton();
+    /*
+      showPlayerMenuButton();
+      } else showAdminButton();
+      */
 
 });

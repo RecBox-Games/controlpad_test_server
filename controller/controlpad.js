@@ -68,6 +68,7 @@ class GameWebSocket {
         if(_DEBUG) {
             console.log("WebSocket closed on " + this.ip + ":" + this.port);
         }
+        setTimeout(() => this.initializeWebSocket(), 1000); // Adjust delay as needed
     }
 
     // event handler for the Websocket onmessage event
@@ -113,3 +114,4 @@ export function send_controlpad_message(msg) {
     console.log('sending ' + msg);
     ws.socket.send(msg);
 }
+
