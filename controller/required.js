@@ -21,10 +21,9 @@ function createMenuButton() {
     menuButton.id = 'universal-menu-button';
     menuButton.setAttribute('data-message', 'menu');
     menuButton.addEventListener('click', togglePopup); // Listener attached here
-
     menuButton.style.position = 'fixed';
-    menuButton.style.top = '10px';
-    menuButton.style.right = '10px'
+    menuButton.style.top = '3px';
+    menuButton.style.right = '3px';
     menuButton.style.zIndex = '1002';
     menuButton.style.backgroundColor = 'transparent';
     menuButton.style.border = 'none';
