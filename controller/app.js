@@ -7,7 +7,7 @@ import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
 document.addEventListener(CONTROLPAD_MESSAGE, (event) => {
     if (event.detail === "goodbye") {
         send_controlpad_message("sayonara");
-    }
+    }   
 });
 
 
@@ -28,7 +28,7 @@ document.addEventListener("viewport-change", (event) => {
                    event.detail.viewHeight);
 });
 
-function layoutElements(isPortrait, viewWidth, viewHeight) {
+function layoutElements(isPortrait) {
     // In the layout functionality below we simply switch which elements are
     // visible (the positioning of portrait vs landscape elements is defined
     // in css files in controller/styles.

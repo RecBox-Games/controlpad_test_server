@@ -8,12 +8,6 @@ import { send_controlpad_message } from './controlpad.js';
 
 const menuButtonImagePath = 'resources/menu.png';
 
-// ---------------------- helpers ----------------------------------
-
-/*function isAdmin() {
-    return localStorage.getItem('isAdmin') === 'true';
-}*/
-
 // ------------------------------ Menu Elements -------------------------
 
 function createMenuButton() {
@@ -153,44 +147,10 @@ function showMainMenu() {
 	inviteButton.style.height = '5vh';
     }
     showQuitButton();
-//        showPlayerMenuButton();
-    
-    //
     popup.appendChild(closeButton);
     popup.appendChild(inviteButton);
 }
 
-/*function showAdminButton() {
-    const popup = document.getElementById('universal-popup');
-
-    const adminButton = document.createElement('button');
-    adminButton.id = 'admin-button';
-    adminButton.textContent = 'Admin Menu';
-    adminButton.style.fontSize = '20px';
-    adminButton.addEventListener('click', showPasswordPrompt);
-    adminButton.style.margin = '10px';
-    adminButton.style.width = '50vw';
-    
-    adminButton.style.backgroundColor = '#2196F3';
-    adminButton.style.color = 'white';
-    adminButton.style.border = 'none';
-    adminButton.style.borderRadius = '5px';
-    adminButton.style.position = 'relative';
-    adminButton.style.top = '20%';
-    adminButton.style.right = '4%';
-
-    if (!isPortrait) {
-	popup.style.height = '30%';
-	adminButton.style.height = '7vh';
-    }
-    else {
-	popup.style.height = '20%';
-	adminButton.style.height = '5vh';
-    }
-
-   
-    popup.appendChild(adminButton);
-}*/
 
 function showQuitButton() {
     const popup = document.getElementById('universal-popup');   
@@ -218,94 +178,8 @@ function showQuitButton() {
 	popup.style.height = '30%';
 	quitButton.style.height = '5vh';	
     }
-
-
     popup.appendChild(quitButton);
-
 }
-
-/*function showPlayerMenuButton() {
-    const popup = document.getElementById('universal-popup');
-
-    const showPlayerMenuButton = document.createElement('button');
-    showPlayerMenuButton.textContent = 'Player Controls';
-    showPlayerMenuButton.style.fontSize = '20px';
-    showPlayerMenuButton.addEventListener('click', switchToPlayerControls);
-    showPlayerMenuButton.style.margin = '10px';
-    showPlayerMenuButton.style.width = '50vw';
-    showPlayerMenuButton.style.height = '5vh';
-    showPlayerMenuButton.style.backgroundColor = '#2196F3';
-    showPlayerMenuButton.style.color = 'white';
-    showPlayerMenuButton.style.border = 'none';
-    showPlayerMenuButton.style.borderRadius = '5px';
-    showPlayerMenuButton.style.position = 'relative';
-    showPlayerMenuButton.style.top = '20%';
-    showPlayerMenuButton.style.right = '4%';
-
-    if (!isPortrait) {
-	showPlayerMenuButton.style.height = '7vh';
-    }
-    else {
-	popup.style.height = '30%';
-	showPlayerMenuButton.style.height = '5vh';	
-    }
-
-
-
-    popup.appendChild(showPlayerMenuButton);
-}*/
-
-// ---------------------- Password Prompt ----------------------------------
-
-/*function showPasswordPrompt() {
-    const popup = document.getElementById('universal-popup');
-    popup.innerHTML = ''; 
-    popup.style.width = '50%';
-    popup.style.height = '5%';    
-
-    const input = document.createElement('input');
-    input.type = 'password';
-    input.id = 'password-input';
-
-    const submitButton = document.createElement('button');
-    submitButton.textContent = 'Submit';
-    submitButton.style.fontSize = '20px';
-    submitButton.addEventListener('click', checkPassword);
-
-    const backButton = document.createElement('button');
-    backButton.textContent = 'Back';
-    backButton.style.fontSize = '20px';
-    backButton.addEventListener('click', showMainMenu);
-
-    popup.appendChild(input);
-    popup.appendChild(submitButton);
-    popup.appendChild(backButton);
-}
-
-function checkPassword() {
-    const input = document.getElementById('password-input');
-    if (input.value === '7') {
-        console.log("Password correct. Action performed.");
-        togglePopup();
-        switchToAdminMenu();
-    } else {
-        console.log("Incorrect password");
-    }
-}*/
-
-// ------------------------- Handle Admin Menu ------------------------------
-
-/*function switchToPlayerControls() {
-    localStorage.setItem('isAdmin', 'false');
-    send_controlpad_message("state-request");
-    togglePopup();
-}
-
-
-  function switchToAdminMenu() {
-    localStorage.setItem('isAdmin', 'true');
-  }
-*/
 
 function confirmQuitGame() {
     const popup = document.getElementById('universal-popup');
@@ -359,14 +233,14 @@ function exitGame() {
 function inviteOthers() {
     let byteArray = new Uint8Array([0x98, 0x98]);
     send_controlpad_message(byteArray);
-
+    //
     var qrCodePath = 'resources/qr.png'; 
     var qrCode = new Image();
     qrCode.src = qrCodePath;
-
+    //
     let attempts = 0;
     const maxAttempts = 10;
-    
+    //
     function attemptLoadQrCode() {
         qrCode.src = qrCodePath; 
         attempts++;        
@@ -439,7 +313,6 @@ function close_and_back_buttons() {
     backButton.style.borderRadius = '5px';
     backButton.style.position = 'relative';
     backButton.style.top = "20%";
-
     popup.appendChild(backButton);
     //
     const closeButton = document.createElement('button');
@@ -482,12 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //
     bodyElement.appendChild(overlay);
     bodyElement.appendChild(menuButton);
-    createPopup(); // Initialize the popup structure
-    //    if (isAdmin()) {
+    //
+    createPopup(); 
     showQuitButton();
-    /*
-      showPlayerMenuButton();
-      } else showAdminButton();
-      */
-
 });
