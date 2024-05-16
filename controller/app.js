@@ -1,8 +1,14 @@
-import { send_controlpad_message } from "./controlpad.js";
+import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
 
 //////////////////////// HANDLE MESSAGES FROM GAME /////////////////////////////
 
 // TODO: handle messages from the game here
+
+document.addEventListener(CONTROLPAD_MESSAGE, (event) => {
+    if (event.detail === "goodbye") {
+        send_controlpad_message("sayonara");
+    }
+});
 
 
 ///////////////////////////////////////////////////////////////////////////////
