@@ -106,7 +106,6 @@ function dispatchViewportEvent() {
 }
 
 document.addEventListener("viewport-change", function(event) {
-    console.log("Viewport changed");
     const { isPortrait } = event.detail;
     const quitButton = document.getElementById('quit-button');
     const inviteButton = document.getElementById('invite-button');
@@ -116,7 +115,6 @@ document.addEventListener("viewport-change", function(event) {
     const backButton = document.getElementById('back-button-menu');
     // check what part of the menu we're on    
     if(quitButton) {
-        console.log("quit button exists");
         if (isPortrait) {
             quitButton.style.height = '5vh';
             inviteButton.style.height = '5vh';
@@ -130,7 +128,6 @@ document.addEventListener("viewport-change", function(event) {
         }
     }
     if(qrdiv) {
-        console.log("qrdiv exists");
         if (isPortrait) {
             popup.style.height = '25vh';
             closeButton.style.height = '5vh';
