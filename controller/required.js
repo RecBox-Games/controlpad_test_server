@@ -243,6 +243,7 @@ function showQuitButton() {
     quitButton.style.display = 'flex';
     quitButton.style.flexDirection = 'column';
     quitButton.style.justifyContent = 'center';
+    quitButton.style.alignItems = 'center';
     quitButton.style.fontSize = '20px';
     quitButton.addEventListener('click', confirmQuitGame);
     quitButton.style.margin = '10px';
@@ -399,10 +400,11 @@ function exitGame() {
 function inviteOthers() {
     // Get current URL
     var ip = window.location.href.split('/')[2].split(':')[0];
+    var url = "http://" + ip + ":" + 3000;
     var qrDiv = document.createElement('div');
     qrDiv.id = 'invite';
     new QRCode(qrDiv, {
-        text: ip,
+        text: url,
         width: 128,
         height: 128,
         colorDark : "#000000",
