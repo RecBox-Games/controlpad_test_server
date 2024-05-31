@@ -63,9 +63,9 @@ function createPopup() {
     popup.style.border = '1px solid black';
     popup.style.padding = '20px';
     popup.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-    popup.style.width = '50%';
-    popup.style.height = '20%';
     popup.style.textAlign = 'center';
+    if(isPortrait) popup.style.height = '20vh';
+    else popup.style.height = '30vh';
     //
     document.body.appendChild(popup);
 }
@@ -105,23 +105,62 @@ function dispatchViewportEvent() {
     document.dispatchEvent(viewport_event);
 }
 
+document.addEventListener("viewport-change", function(event) {
+    const { isPortrait } = event.detail;
+    const quitButton = document.getElementById('quit-button');
+    const inviteButton = document.getElementById('invite-button');
+    const closeButton = document.getElementById('close-button');
+    const popup = document.getElementById('universal-popup');
+    const qrdiv = document.getElementById('invite');
+    const backButton = document.getElementById('back-button-menu');
+    // check what part of the menu we're on    
+    if(quitButton) {
+        if (isPortrait) {
+            quitButton.style.height = '5vh';
+            inviteButton.style.height = '5vh';
+            closeButton.style.height = '5vh';
+            popup.style.height = '20vh';
+        } else {
+            quitButton.style.height = '7vh';
+            inviteButton.style.height = '7vh';
+            closeButton.style.height = '8vh';
+            popup.style.height = '30vh';
+        }
+    }
+    if(qrdiv) {
+        if (isPortrait) {
+            popup.style.height = '25vh';
+            closeButton.style.height = '5vh';
+            closeButton.style.width = '20vw';
+            qrdiv.style.height = '25vh';
+            backButton.style.top = '1vh';                        
+        } else {
+            popup.style.height = '50vh';
+            closeButton.style.height = '8vh';
+            closeButton.style.width = '10vw';
+            qrdiv.style.height = '50vh';
+            backButton.style.top = '3vh';
+        }
+    }    
+    
+});
+
 // ------------------------- Menu Sub Elements -----------------------------
 
 function showMainMenu() {
     const popup = document.getElementById('universal-popup');
     popup.innerHTML = ''; // Clear current content
-    if (window.innerWidth > window.innerHeight) popup.style.height = '30%';
-    else popup.style.height = '20%';
 
     const closeButton = document.createElement('button');    
     closeButton.id = 'close-button';
+    closeButton.style.display = 'flex';
+    closeButton.style.justifyContent = 'center';
+    closeButton.style.alignItems = 'center';
+    closeButton.style.marginLeft = 'auto';
     closeButton.style.border = 'none';
     closeButton.style.borderRadius = '5px';
     closeButton.style.backgroundColor = 'transparent';
-    closeButton.textContent = 'Close X';
-    closeButton.style.position = 'absolute';
-    closeButton.style.right = '2px';
-    closeButton.style.top = '2px';
+    closeButton.textContent = 'Close';
     closeButton.addEventListener('click', togglePopup);
     closeButton.style.backgroundColor = 'black';
     closeButton.style.color = 'white';
@@ -131,7 +170,12 @@ function showMainMenu() {
     
     // Invite Others Button
     const inviteButton = document.createElement('button');
+    inviteButton.id = 'invite-button';
     inviteButton.textContent = 'Invite Others';
+    inviteButton.style.display = 'flex';
+    inviteButton.style.flexDirection = 'column';    
+    inviteButton.style.alignItems = 'center';
+    inviteButton.style.justifyContent = 'center';
     inviteButton.style.fontSize = '20px';
     inviteButton.addEventListener('click', inviteOthers);
     inviteButton.style.margin = '10px';
@@ -140,23 +184,21 @@ function showMainMenu() {
     inviteButton.style.color = 'white';
     inviteButton.style.border = 'none';
     inviteButton.style.borderRadius = '5px';
-    inviteButton.style.position = 'relative';
-    inviteButton.style.top = '20%';
-    inviteButton.style.right = '4%';
 
     if (!isPortrait) {
-	closeButton.style.height = '8vh';
+        closeButton.style.height = '8vh';
 	inviteButton.style.height = '7vh';
     }
     else {
-	closeButton.style.height = '5vh';
-	inviteButton.style.height = '5vh';
+        closeButton.style.height = '5vh';
+	inviteButton.style.height = '5vh';	
     }
+
+    popup.appendChild(closeButton);
     showQuitButton();
 //        showPlayerMenuButton();
     
     //
-    popup.appendChild(closeButton);
     popup.appendChild(inviteButton);
 }
 
@@ -195,8 +237,13 @@ function showMainMenu() {
 function showQuitButton() {
     const popup = document.getElementById('universal-popup');   
 
-    const quitButton = document.createElement('button');    
+    const quitButton = document.createElement('button');
+    quitButton.id = 'quit-button';
     quitButton.textContent = 'Quit Game';
+    quitButton.style.display = 'flex';
+    quitButton.style.flexDirection = 'column';
+    quitButton.style.justifyContent = 'center';
+    quitButton.style.alignItems = 'center';
     quitButton.style.fontSize = '20px';
     quitButton.addEventListener('click', confirmQuitGame);
     quitButton.style.margin = '10px';
@@ -207,18 +254,13 @@ function showQuitButton() {
     quitButton.style.border = 'none';
     quitButton.style.borderRadius = '5px';
     quitButton.style.position = 'relative';
-    quitButton.style.top = '20%';
-    quitButton.style.right = '4%';
 
     if (!isPortrait) {
-	popup.style.height = '45%';
 	quitButton.style.height = '7vh';
     }
     else {
-	popup.style.height = '30%';
 	quitButton.style.height = '5vh';	
     }
-
 
     popup.appendChild(quitButton);
 
@@ -310,7 +352,6 @@ function checkPassword() {
 function confirmQuitGame() {
     const popup = document.getElementById('universal-popup');
     popup.innerHTML = ''; 
-    popup.style.height = '20%';
 
     // yes or no button and no button just goes back and yes calls exitGame
     const yesButton = document.createElement('button');
@@ -357,80 +398,53 @@ function exitGame() {
 // ------------------------- handle qr codes ------------------------------------
 
 function inviteOthers() {
-    let byteArray = new Uint8Array([0x98, 0x98]);
-    send_controlpad_message(byteArray);
-
-    var qrCodePath = 'resources/qr.png'; 
-    var qrCode = new Image();
-    qrCode.src = qrCodePath;
-
-    let attempts = 0;
-    const maxAttempts = 10;
-    
-    function attemptLoadQrCode() {
-        qrCode.src = qrCodePath; 
-        attempts++;        
+    // Get current URL
+    var ip = window.location.href.split('/')[2].split(':')[0];
+    var url = "http://" + ip + ":" + 3000;
+    var qrDiv = document.createElement('div');
+    qrDiv.id = 'invite';
+    new QRCode(qrDiv, {
+        text: url,
+        width: 128,
+        height: 128,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+    qrDiv.style.display = 'flex';
+    qrDiv.style.position = 'relative';
+    qrDiv.style.top = '1vh';
+    qrDiv.style.margin = '3px';
+    qrDiv.style.flexDirection = 'column';
+    qrDiv.style.justifyContent = 'center';
+    qrDiv.style.alignItems = 'center';
+    qrDiv.style.height = '100%';
+    qrDiv.style.width = '100%';    
+    const popup = document.getElementById('universal-popup');
+    popup.innerHTML = '';
+    if (!isPortrait) {
+        popup.style.height = '50vh';
     }
-
-    qrCode.onload = function() {
-        console.log("QR code loaded successfully");
-        displayQrCodeImage();
-    };
-
-    qrCode.onerror = function() {
-        console.log("Attempt " + attempts + " to load QR code failed");
-        if (attempts < maxAttempts) {
-            setTimeout(attemptLoadQrCode, 1000);
-            displayLoadingQrCodeMessage();
-        }
-        else displayQrCodeNotFoundError();
-    };
-}
-
-function displayQrCodeImage() {
-    const popup = document.getElementById('universal-popup');
-    popup.innerHTML = '';
-    if (!isPortrait) popup.style.height = '50%';
-    else popup.style.height = '25%';
-    const qrCode = document.createElement('img');
-    qrCode.src = 'resources/qr.png';
-    qrCode.style.position = 'relative';
-    qrCode.style.top = '20%';
-    popup.appendChild(qrCode);
+    else {
+        popup.style.height = '25vh';
+    }
+    popup.appendChild(qrDiv);
     close_and_back_buttons();
-}
 
-function displayLoadingQrCodeMessage() {
-    const popup = document.getElementById('universal-popup');
-    popup.innerHTML = '';
-    popup.style.height = '25%';    
-    const loadingQrCode = document.createElement('p');
-    loadingQrCode.textContent = 'Loading QR code...';
-    loadingQrCode.style.position = 'relative';
-    popup.appendChild(loadingQrCode);
-    close_and_back_buttons();
-}
-
-function displayQrCodeNotFoundError() {
-    const popup = document.getElementById('universal-popup');
-    popup.innerHTML = '';
-    const qrCodeNotFound = document.createElement('p');
-    qrCodeNotFound.textContent = 'QR code not found';
-    qrCodeNotFound.style.position = 'relative';
-    qrCodeNotFound.style.top = '20%';
-    popup.appendChild(qrCodeNotFound);
-    close_and_back_buttons();
 }
 
 function close_and_back_buttons() {
     const popup = document.getElementById('universal-popup');
+    const qrdiv = document.getElementById('invite');
     //
     const backButton = document.createElement('button');
-    backButton.id = 'back-button-popup';
+    backButton.id = 'back-button-menu';
     backButton.textContent = 'Back'
     backButton.style.fontSize = '20px';
     backButton.addEventListener('click', showMainMenu);
-    backButton.style.margin = '10px';
+    backButton.style.display = 'flex';
+    backButton.style.justifyContent = 'center';
+    backButton.style.alignItems = 'center';
     backButton.style.width = '20vw';
     backButton.style.height = '40px';
     backButton.style.backgroundColor = '#4CAF50';
@@ -438,16 +452,15 @@ function close_and_back_buttons() {
     backButton.style.border = 'none';
     backButton.style.borderRadius = '5px';
     backButton.style.position = 'relative';
-    backButton.style.top = "20%";
 
-    popup.appendChild(backButton);
+    qrdiv.appendChild(backButton);
     //
     const closeButton = document.createElement('button');
     closeButton.id = 'close-button';
     closeButton.style.border = 'none';
     closeButton.style.borderRadius = '5px';
     closeButton.style.backgroundColor = 'transparent';
-    closeButton.textContent = 'Close X';
+    closeButton.textContent = 'Close';
     closeButton.style.position = 'absolute';
     closeButton.style.right = '2px';
     closeButton.style.top = '2px';
@@ -456,16 +469,19 @@ function close_and_back_buttons() {
     closeButton.style.color = 'white';
     closeButton.style.fontSize = '20px';
     closeButton.style.padding = '3px';
-    closeButton.style.width = '20vw';
+
     closeButton.style.height = '5vh';
     popup.appendChild(closeButton);
 
-    if (window.innerWidth > window.innerHeight) {
+    if (!isPortrait) {
+        closeButton.style.width = '10vw';
 	closeButton.style.height = '8vh';
-	backButton.style.top = '35%';
+	backButton.style.top = '3vh';
     }
     else {
+        closeButton.style.width = '20vw';
 	closeButton.style.height = '5vh';
+        backButton.style.top = '1vh';        
     }
 
 }
