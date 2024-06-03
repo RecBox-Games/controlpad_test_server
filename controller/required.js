@@ -15,6 +15,15 @@ const menuButtonImagePath = 'resources/menu.png';
 }*/
 
 // ------------------------------ Menu Elements -------------------------
+function importLibrary(url) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
+    document.head.appendChild(script);
+  });
+}
 
 function createMenuButton() {
     const menuButton = document.createElement('button');
@@ -489,21 +498,25 @@ function close_and_back_buttons() {
 // ------------------------When Dom is loaded-----------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
-    const bodyElement = document.body;
+    // import qr code library
+        importLibrary('https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js')
+        .then(() => {
+            console.log('QRCode library loaded');
+        })
+        .catch(error => {
+            console.error('Error loading QRCode library:', error);
+        });
     const menuButton = createMenuButton();
     const overlay = createOverlay();
     //
     dispatchViewportEvent();
     setInterval(dimsCheck, 100);
     //
-    bodyElement.appendChild(overlay);
-    bodyElement.appendChild(menuButton);
-    createPopup(); // Initialize the popup structure
+    document.body.appendChild(overlay);
+    document.body.appendChild(menuButton);
+    createPopup(); 
     //    if (isAdmin()) {
     showQuitButton();
-    /*
-      showPlayerMenuButton();
-      } else showAdminButton();
-      */
-
+    // showPlayerMenuButton();
+    // } else showAdminButton();
 });
