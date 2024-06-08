@@ -122,37 +122,36 @@ document.addEventListener("viewport-change", function(event) {
     const popup = document.getElementById('universal-popup');
     const qrdiv = document.getElementById('invite');
     const backButton = document.getElementById('back-button-menu');
-    // check what part of the menu we're on
-    if(popup && popup.style.display != 'none') {
-        if (quitButton) {
-            if (isPortrait) {
-                quitButton.style.height = '5vh';
-                inviteButton.style.height = '5vh';
-                closeButton.style.height = '5vh';
-                popup.style.height = '20vh';
-            } else {
-                quitButton.style.height = '7vh';
-                inviteButton.style.height = '7vh';
-                closeButton.style.height = '8vh';
-                popup.style.height = '30vh';
-            }
+    // check what part of the menu we're on    
+    if(quitButton) {
+        if (isPortrait) {
+            quitButton.style.height = '5vh';
+            inviteButton.style.height = '5vh';
+            closeButton.style.height = '5vh';
+            popup.style.height = '20vh';
+        } else {
+            quitButton.style.height = '7vh';
+            inviteButton.style.height = '7vh';
+            closeButton.style.height = '8vh';
+            popup.style.height = '30vh';
         }
-        if (qrdiv) {
-            if (isPortrait) {
-                popup.style.height = '25vh';
-                closeButton.style.height = '5vh';
-                closeButton.style.width = '20vw';
-                qrdiv.style.height = '25vh';
-                backButton.style.top = '1vh';
-            } else {
-                popup.style.height = '50vh';
-                closeButton.style.height = '8vh';
-                closeButton.style.width = '10vw';
-                qrdiv.style.height = '50vh';
-                backButton.style.top = '3vh';
-            }
+    }
+    if(qrdiv) {
+        if (isPortrait) {
+            popup.style.height = '25vh';
+            closeButton.style.height = '5vh';
+            closeButton.style.width = '20vw';
+            qrdiv.style.height = '25vh';
+            backButton.style.top = '1vh';                        
+        } else {
+            popup.style.height = '50vh';
+            closeButton.style.height = '8vh';
+            closeButton.style.width = '10vw';
+            qrdiv.style.height = '50vh';
+            backButton.style.top = '3vh';
         }
     }    
+    
 });
 
 // ------------------------- Menu Sub Elements -----------------------------
