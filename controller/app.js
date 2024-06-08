@@ -3,7 +3,6 @@ import { send_controlpad_message } from "./controlpad.js";
 
 document.addEventListener("controlpad-message", (event) => {
     var msg = event.detail;
-    console.log("recv: " + msg);
     let movePad = document.getElementById("wheelPad");
     //movePad.style.background = msg;
     //movePad.style.display = "none";
@@ -122,10 +121,10 @@ var throttledDragEvent = throttle(function(e) {
     var touchY = touch.clientY;
 
     if (isTouchActive) {
+        // calculate how much the wheel should rotate by
         lastTouchAngle = newTouchAngle;
         newTouchAngle = angle_of_touch(touchX, touchY);
         var angle_diff = newTouchAngle - lastTouchAngle;
-        console.log(angle_diff);
         if (angle_diff > Math.PI) {
             angle_diff -= Math.PI*2;
         } else if (angle_diff < -Math.PI) {
@@ -134,11 +133,18 @@ var throttledDragEvent = throttle(function(e) {
         var dist = dist_of_touch(touchX, touchY);
         var dist_multiplier = Math.min(dist*2, 1.0);
         var rotation_amount = dist_multiplier*angle_diff;
+        // rotate the wheel
         wheelRotation += rotation_amount;
+        if (wheelRotation > Math.PI*2) {
+            wheelRotation -= Math.PI*2;
+        } else if (wheelRotation < 0.0) {
+            wheelRotation += Math.PI*2;
+        }
         var rotation_degrees = wheelRotation * 180 / Math.PI;
         var wheel = document.getElementById("wheel");
         wheel.style.transform = `translate(-50%, -50%) rotate(${rotation_degrees}deg)`;
-        //send_controlpad_message(datum);
+        // send the rotation to the game
+        send_controlpad_message(wheelRotation);
     }
 }, 33); // Throttle to 30 times per second (33.33 milliseconds)
 
