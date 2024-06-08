@@ -132,6 +132,9 @@ var throttledDragEvent = throttle(function(e) {
         }
         var dist = dist_of_touch(touchX, touchY);
         var dist_multiplier = Math.min(dist*2, 1.0);
+        if (dist_multiplier < 0.15) {
+            dist_multiplier = 0.0;
+        }
         var rotation_amount = dist_multiplier*angle_diff;
         // rotate the wheel
         wheelRotation += rotation_amount;
