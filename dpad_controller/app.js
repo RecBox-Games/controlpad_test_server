@@ -1,13 +1,8 @@
-import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
+import { send_controlpad_message } from "./controlpad.js";
 
 //////////////////////// HANDLE MESSAGES FROM GAME /////////////////////////////
 
 // TODO: handle messages from the game here
-document.addEventListener(CONTROLPAD_MESSAGE, (event) => {
-    if (event.detail === "goodbye") {
-        send_controlpad_message("sayonara");
-    }
-});
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -57,7 +52,7 @@ document.getElementById("input-text-landscape").addEventListener("blur", () => {
     window.scrollTo(0,0);
 });
 
-/////////////////////////// EXAMPLE BUTTON LISTENER /////////////////////////////
+/////////////////////////// EXAMPLE BUTTON LISTENERS /////////////////////////////
 
 // send message based on the id of the button in the html
 document.getElementById("enter-button").addEventListener("click", () => {
@@ -68,6 +63,22 @@ document.getElementById("enter-button-landscape").addEventListener("click", () =
     send_controlpad_message("hello");
 });
 
+document.getElementById("back-button").addEventListener("click", () => {
+    send_controlpad_message("back");
+});
+
+document.getElementById("back-button-landscape").addEventListener("click", () => {
+    send_controlpad_message("back");
+});
+
+// send message based on the data-message attribute of the button in the html
+// this is useful if you want to send different messages based on the same
+// button element
+for (let button of document.getElementsByClassName("arrow-button")) {
+    button.addEventListener("click", () => {
+        send_controlpad_message(button.getAttribute("data-message"));
+    });
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
