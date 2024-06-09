@@ -95,12 +95,12 @@ touchPad.addEventListener('touchstart', function(e) {
 
 touchPad.addEventListener('touchend', function(e) {
     isTouchActive = false;
-    send_controlpad_message("stick:0,0");
+    send_controlpad_message("let-go");
 }, false);
 
 touchPad.addEventListener('touchcancel', function(e) {
     isTouchActive = false;
-    send_controlpad_message("stick:0,0");
+    send_controlpad_message("let-go");
 }, false);
 
 
