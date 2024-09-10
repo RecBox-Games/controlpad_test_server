@@ -1,3 +1,13 @@
+// The code in this file (app.js) is licensed under CC0 1.0 Universal (CC0 1.0)
+// Public Domain Dedication.
+// To view a copy of this license, visit
+// http://creativecommons.org/publicdomain/zero/1.0/
+//
+// You can copy, modify, distribute and perform the work, even for commercial
+// purposes, all without asking permission. See the CC0 Public Domain
+// Dedication for more details.
+
+
 import { send_controlpad_message, CONTROLPAD_MESSAGE } from "./controlpad.js";
 
 //////////////////////// HANDLE MESSAGES FROM GAME /////////////////////////////
